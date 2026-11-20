@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kakao Farm | Jadwal Pemupukan</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="sahran_header">
+    <div class="sahran_logo">
+        <img src="img/logo.jpg" alt="Kakao Farm">
+        <h2>KAKAO FARM</h2>
+    </div>
+
+      <nav class="sahran_menu">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="tentang.html">Tentang</a>
+        <a href="profil-kebun.html">Profil Kebun</a>
+        <a href="lahan.html">Lahan</a>
+        <a href="pemupukan.html">Pemupukan</a>
+        <a href="panen.html">Hasil Panen</a>
+        <a href="laporan.html">Laporan</a>
+        <a href="kontak.html">Kontak</a>
+      </nav>
+    </header>
+
+   
+<!-- HALAMAN PEMUPUKAN -->
+<main class="pemupukan-page">
+
+    <!-- JUDUL -->
+    <section class="pemupukan-heading">
+        <span>🌱</span>
+        <h1>Jadwal Pemupukan Kakao</h1>
+        <p>
+            Kelola jadwal pemupukan tanaman kakao agar perawatan
+            dan kesuburan kebun tetap terjaga.
+        </p>
+    </section>
+
+    <!-- PENGINGAT OTOMATIS -->
+    <section class="pemupukan-reminder">
+        <h2>🔔 Pengingat Pemupukan</h2>
+        <p id="sahran_pesan">
+            Memeriksa jadwal pemupukan...
+        </p>
+    </section>
+
+    <!-- FORM TAMBAH JADWAL -->
+    <section class="pemupukan-card">
+        <div class="pemupukan-card-heading">
+            <span>🪴</span>
+            <h2>Tambah Jadwal Pemupukan</h2>
+        </div>
+
+        <form id="sahran_form_pemupukan">
+
+            <label>Nama Lahan</label>
+            <select id="sahran_nama_lahan" required>
+                <option value="">-- Pilih Nama Lahan --</option>
+            </select>
+
+            <label>Tanggal Pemupukan</label>
+            <input type="date" id="sahran_tanggal" required />
+
+            <label>Jenis Pupuk</label>
+            <select id="sahran_jenis_pupuk" required>
+                <option value="">Pilih jenis pupuk</option>
+                <option value="NPK">NPK</option>
+                <option value="Organik">Organik</option>
+                <option value="Urea">Urea</option>
+                <option value="KCL">KCL</option>
+            </select>
+
+            <label>Keterangan</label>
+            <input
+                type="text"
+                id="sahran_keterangan"
+                placeholder="Masukkan keterangan"
+            />
+
+            <button type="submit">+ Simpan Jadwal</button>
+        </form>
+    </section>
+
+    <!-- TABEL JADWAL -->
+    <section class="pemupukan-card">
+        <div class="pemupukan-card-heading">
+            <span>📋</span>
+            <h2>Daftar Jadwal Pemupukan</h2>
+        </div>
+
+        <div class="pemupukan-table-wrapper">
+            <table class="sahran_table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Lahan</th>
+                        <th>Tanggal</th>
+                        <th>Jenis Pupuk</th>
+                        <th>Keterangan</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="sahran_daftar_jadwal"></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+   <script src="js/pemupukan.js"></script>
+   <script src="js/pilihan-lahan.js"></script>
+  </body>
+</html>

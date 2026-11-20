@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kakao Farm | Kontak</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="sahran_header">
+    <div class="sahran_logo">
+        <img src="img/logo.jpg" alt="Kakao Farm">
+        <h2>KAKAO FARM</h2>
+    </div>
+
+        <nav class="sahran_menu">
+           <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tentang.html">Tentang</a>
+            <a href="profil-kebun.html">Profil Kebun</a>
+            <a href="lahan.html">Lahan</a>
+            <a href="pemupukan.html">Pemupukan</a>
+            <a href="panen.html">Hasil Panen</a>
+            <a href="laporan.html">Laporan</a>
+            <a href="kontak.html">Kontak</a>
+        </nav>
+    </header>
+
+    <!-- JUDUL -->
+    <section class="sahran_intro">
+        <h2>Hubungi Kami</h2>
+
+        <p>
+            Silakan kirim pertanyaan, kritik, dan saran
+            mengenai pengelolaan perkebunan kakao.
+        </p>
+    </section>
+
+    <!-- FORM KONTAK -->
+    <section class="sahran_contact">
+
+        <h2>Formulir Pesan</h2>
+
+        <form id="sahran_form">
+
+            <label for="sahran_nama">Nama Lengkap</label>
+            <input
+                type="text"
+                id="sahran_nama"
+                placeholder="Masukkan nama Anda"
+                required
+            >
+
+            <label for="sahran_email">Email</label>
+            <input
+                type="email"
+                id="sahran_email"
+                placeholder="Masukkan email Anda"
+                required
+            >
+
+            <label for="sahran_subjek">Subjek</label>
+            <input
+                type="text"
+                id="sahran_subjek"
+                placeholder="Masukkan subjek pesan"
+                required
+            >
+
+            <label for="sahran_pesan_kontak">Pesan</label>
+            <textarea
+                id="sahran_pesan_kontak"
+                rows="5"
+                placeholder="Tuliskan pesan Anda..."
+                required
+            ></textarea>
+
+            <button type="submit" class="sahran_button">
+                Kirim Pesan
+            </button>
+
+            <p id="sahran_hasil"></p>
+
+        </form>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="sahran_footer">
+        <p>&copy; 2026 Kakao Farm</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
+

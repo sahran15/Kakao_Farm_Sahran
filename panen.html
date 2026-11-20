@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kakao Farm | Hasil Panen</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+   <header class="sahran_header">
+    <div class="sahran_logo">
+        <img src="img/logo.jpg" alt="Kakao Farm">
+        <h2>KAKAO FARM</h2>
+    </div>
+      <nav class="sahran_menu">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="tentang.html">Tentang</a>
+        <a href="profil-kebun.html">Profil Kebun</a>
+        <a href="lahan.html">Lahan</a>
+        <a href="pemupukan.html">Pemupukan</a>
+        <a href="panen.html">Hasil Panen</a>
+        <a href="laporan.html">Laporan</a>
+        <a href="kontak.html">Kontak</a>
+      </nav>
+    </header>
+
+    
+<!-- HALAMAN HASIL PANEN -->
+<main class="panen-page">
+
+  <!-- JUDUL -->
+  <section class="panen-heading">
+    <span>🌱</span>
+    <h1>Catatan Hasil Panen Kakao</h1>
+    <p>
+      Catat dan pantau hasil panen kakao serta pendapatan
+      dari penjualan hasil kebun.
+    </p>
+  </section>
+
+  <!-- RINGKASAN -->
+  <section class="panen-ringkasan">
+    <div class="panen-summary-card">
+      <span>🌾</span>
+      <h3>Total Hasil Panen</h3>
+      <p id="sahran_total_kg">0 Kg</p>
+    </div>
+
+    <div class="panen-summary-card">
+      <span>💰</span>
+      <h3>Total Pendapatan</h3>
+      <p id="sahran_total_pendapatan">Rp0</p>
+    </div>
+  </section>
+
+  <!-- FORM TAMBAH PANEN -->
+  <section class="panen-card">
+    <div class="panen-card-heading">
+      <span>📝</span>
+      <h2>Tambah Data Hasil Panen</h2>
+    </div>
+
+    <form id="sahran_form_panen">
+      <label>Nama Lahan</label>
+      <select id="sahran_nama_lahan" required>
+        <option value="">-- Pilih Nama Lahan --</option>
+      </select>
+
+      <label>Tanggal Panen</label>
+      <input type="date" id="sahran_tanggal_panen" required />
+
+      <label>Jumlah Panen (Kg)</label>
+      <input
+        type="number"
+        id="sahran_jumlah_panen"
+        min="0.01"
+        step="0.01"
+        placeholder="Contoh: 150"
+        required
+      />
+
+      <label>Harga Jual per Kg (Rp)</label>
+      <input
+        type="number"
+        id="sahran_harga_panen"
+        min="1"
+        step="1"
+        placeholder="Contoh: 35000"
+        required
+      />
+
+      <label>Kualitas Panen</label>
+      <select id="sahran_kualitas_panen" required>
+        <option value="">Pilih kualitas</option>
+        <option value="Sangat Baik">Sangat Baik</option>
+        <option value="Baik">Baik</option>
+        <option value="Cukup">Cukup</option>
+      </select>
+
+      <label>Keterangan</label>
+      <input
+        type="text"
+        id="sahran_keterangan_panen"
+        placeholder="Masukkan keterangan"
+      />
+
+      <button type="submit">+ Simpan Hasil Panen</button>
+    </form>
+  </section>
+
+  <!-- TABEL HASIL PANEN -->
+  <section class="panen-card">
+    <div class="panen-card-heading">
+      <span>📋</span>
+      <h2>Daftar Hasil Panen</h2>
+    </div>
+
+    <div class="panen-table-wrapper">
+      <table class="sahran_table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Lahan</th>
+            <th>Tanggal Panen</th>
+            <th>Jumlah Panen</th>
+            <th>Harga/Kg</th>
+            <th>Pendapatan</th>
+            <th>Kualitas</th>
+            <th>Keterangan</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+
+        <tbody id="sahran_daftar_panen"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+    <!-- FOOTER -->
+    <footer class="sahran_footer">
+      <p>&copy; 2026 Kakao Farm</p>
+    </footer>
+
+    <script src="js/panen.js"></script>
+    <script src="js/pilihan-lahan.js"></script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Lahan - Kakao Farm</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    
+
+<header class="sahran_header">
+    <div class="sahran_logo">
+        <img src="img/logo.jpg" alt="Kakao Farm">
+        <h2>KAKAO FARM</h2>
+    </div>
+
+    <nav class="sahran_menu">
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="tentang.html">Tentang</a>
+        <a href="profil-kebun.html">Profil Kebun</a>
+        <a href="lahan.html">Lahan</a>
+        <a href="pemupukan.html">Pemupukan</a>
+        <a href="panen.html">Hasil Panen</a>
+        <a href="laporan.html">Laporan</a>
+        <a href="kontak.html">Kontak</a>
+    </nav>
+</header>
+
+
+    
+<main class="lahan-page">
+
+    <!-- JUDUL HALAMAN -->
+    <section class="lahan-heading">
+        <span>🌳</span>
+        <h1>Data Lahan Kakao</h1>
+        <p>Kelola, pantau, dan catat perkembangan seluruh lahan perkebunan kakao.</p>
+    </section>
+
+    <!-- FORM TAMBAH LAHAN -->
+    <section class="form-container lahan-card">
+        <div class="lahan-card-heading">
+            <span>🌱</span>
+            <h2>Tambah Data Lahan</h2>
+        </div>
+
+        <form id="sahran_form_lahan">
+
+            <label>Nama Lahan</label>
+            <input type="text" id="sahran_nama_lahan"
+                placeholder="Contoh: Kebun Sejahtera" required>
+
+            <label>Lokasi Lahan</label>
+            <input type="text" id="sahran_lokasi_lahan"
+                placeholder="Masukkan lokasi lahan" required>
+
+            <label>Luas Lahan (Hektare)</label>
+            <input type="number" id="sahran_luas_lahan"
+                min="0.01" step="0.01" required>
+
+            <label>Jumlah Pohon Kakao</label>
+            <input type="number" id="sahran_jumlah_pohon"
+                min="1" step="1" required>
+
+            <label>Kondisi Tanaman</label>
+            <select id="sahran_kondisi_lahan" required>
+                <option value="">-- Pilih Kondisi --</option>
+                <option value="Baik">Baik</option>
+                <option value="Sedang">Sedang</option>
+                <option value="Perlu Perawatan">Perlu Perawatan</option>
+            </select>
+
+            <label>Catatan Tambahan</label>
+            <textarea id="sahran_catatan_lahan"
+                placeholder="Masukkan catatan jika ada"></textarea>
+
+            <button type="submit">Simpan Data Lahan</button>
+        </form>
+    </section>
+
+    <!-- TABEL DAFTAR LAHAN -->
+    <section class="table-container lahan-card">
+        <div class="lahan-card-heading">
+            <span>📋</span>
+            <h2>Daftar Lahan Saya</h2>
+        </div>
+
+        <div class="lahan-table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Nama Lahan</th>
+                        <th>Lokasi</th>
+                        <th>Luas</th>
+                        <th>Jumlah Pohon</th>
+                        <th>Kondisi</th>
+                        <th>Catatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="sahran_daftar_lahan">
+                    <tr>
+                        <td colspan="8">Belum ada data lahan.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+
+    <footer>
+        <p>&copy; 2026 Kakao Farm - Catatan Kebun Pribadi</p>
+    </footer>
+
+    <script src="js/lahan.js"></script>
+</body>
+</html>

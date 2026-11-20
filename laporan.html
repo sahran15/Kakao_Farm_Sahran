@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kakao Farm | Laporan Hasil Panen</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="sahran_header">
+    <div class="sahran_logo">
+        <img src="img/logo.jpg" alt="Kakao Farm">
+        <h2>KAKAO FARM</h2>
+    </div>
+        <nav class="sahran_menu">
+           <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="tentang.html">Tentang</a>
+            <a href="profil-kebun.html">Profil Kebun</a>
+            <a href="lahan.html">Lahan</a>
+            <a href="pemupukan.html">Pemupukan</a>
+            <a href="panen.html">Hasil Panen</a>
+            <a href="laporan.html">Laporan</a>
+            <a href="kontak.html">Kontak</a>
+        </nav>
+    </header>
+
+    <section class="sahran_intro">
+        <h2>Laporan Hasil Panen Kakao</h2>
+        <p>Rekapitulasi hasil panen dan pendapatan berdasarkan bulan.</p>
+    </section>
+
+    <section class="sahran_filter_laporan">
+        <label for="sahran_bulan_laporan">Pilih Bulan Laporan:</label>
+        <input type="month" id="sahran_bulan_laporan">
+        <button type="button" id="sahran_cetak_laporan">
+            Cetak Laporan
+        </button>
+    </section>
+
+    <section class="sahran_ringkasan">
+        <div class="sahran_kartu">
+            <h3>Total Hasil Panen</h3>
+            <p id="sahran_laporan_total_kg">0 Kg</p>
+        </div>
+
+        <div class="sahran_kartu">
+            <h3>Total Pendapatan</h3>
+            <p id="sahran_laporan_total_rupiah">Rp0</p>
+        </div>
+    </section>
+
+    <section class="sahran_data">
+        <h2 id="sahran_judul_periode">Rincian Hasil Panen</h2>
+
+        <table class="sahran_table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Lahan</th>
+                    <th>Tanggal Panen</th>
+                    <th>Jumlah Panen</th>
+                    <th>Harga/Kg</th>
+                    <th>Pendapatan</th>
+                    <th>Kualitas</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody id="sahran_tabel_laporan"></tbody>
+        </table>
+
+        <p id="sahran_pesan_laporan"></p>
+    </section>
+
+    <footer class="sahran_footer">
+        <p>&copy; 2026 Kakao Farm</p>
+    </footer>
+
+    <script src="js/laporan.js"></script>
+</body>
+</html>
