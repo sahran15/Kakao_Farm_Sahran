@@ -4,42 +4,60 @@
 // KAKAO FARM - SAHRAN
 // ===================================
 
-// Data awal jadwal pemupukan
+// DATA AWAL
 const sahran_data_awal = [
     {
         id: 1,
         lahan: "Kebun Sejahtera",
         tanggal: "2026-11-18",
         pupuk: "NPK",
-        keterangan: "Pemupukan berkala"
+        keterangan: "Pemupukan berkala",
+        selesai: false,
+        tanggal_realisasi: ""
     },
     {
         id: 2,
         lahan: "Kebun Makmur",
         tanggal: "2026-12-18",
         pupuk: "Organik",
-        keterangan: "Pemupukan berkala"
+        keterangan: "Pemupukan berkala",
+        selesai: false,
+        tanggal_realisasi: ""
     },
     {
         id: 3,
         lahan: "Kebun Subur",
         tanggal: "2027-01-18",
         pupuk: "NPK",
-        keterangan: "Pemupukan berkala"
+        keterangan: "Pemupukan berkala",
+        selesai: false,
+        tanggal_realisasi: ""
     }
 ];
 
-// Mengambil data dari Local Storage
-let sahran_jadwal = JSON.parse(
-    localStorage.getItem("sahran_jadwal")
-);
+// MENGAMBIL DATA LOCAL STORAGE
+let sahran_jadwal;
+
+try {
+    sahran_jadwal = JSON.parse(
+        localStorage.getItem("sahran_jadwal")
+    );
+} catch (error) {
+    sahran_jadwal = null;
+}
 
 if (!Array.isArray(sahran_jadwal)) {
     sahran_jadwal = sahran_data_awal;
-    sahran_simpan_data();
 }
 
-// Fungsi menyimpan data
+// MENYESUAIKAN DATA LAMA
+sahran_jadwal = sahran_jadwal.map(data => ({
+    ...data,
+    selesai: data.selesai === true,
+    tanggal_realisasi: data.tanggal_realisasi || ""
+}));
+
+// MENYIMPAN DATA
 function sahran_simpan_data() {
     localStorage.setItem(
         "sahran_jadwal",
@@ -47,8 +65,10 @@ function sahran_simpan_data() {
     );
 }
 
-// Mengubah tanggal menjadi format Indonesia
+// FORMAT TANGGAL INDONESIA
 function sahran_format_tanggal(tanggal) {
+    if (!tanggal) return "-";
+
     return new Date(tanggal + "T00:00:00")
         .toLocaleDateString("id-ID", {
             day: "numeric",
@@ -57,32 +77,71 @@ function sahran_format_tanggal(tanggal) {
         });
 }
 
-// Menghitung selisih hari
-function sahran_selisih_hari(tanggal) {
+// TANGGAL HARI INI
+function sahran_hari_ini() {
     const sekarang = new Date();
-    sekarang.setHours(0, 0, 0, 0);
 
-    const target = new Date(tanggal + "T00:00:00");
+    const tahun = sekarang.getFullYear();
+    const bulan = String(
+        sekarang.getMonth() + 1
+    ).padStart(2, "0");
+
+    const hari = String(
+        sekarang.getDate()
+    ).padStart(2, "0");
+
+    return `${tahun}-${bulan}-${hari}`;
+}
+
+// MENGHITUNG SELISIH HARI
+function sahran_selisih_hari(tanggal) {
+    const sekarang = new Date(
+        sahran_hari_ini() + "T00:00:00"
+    );
+
+    const target = new Date(
+        tanggal + "T00:00:00"
+    );
 
     return Math.round(
         (target - sekarang) / (1000 * 60 * 60 * 24)
     );
 }
 
-// Menentukan status pemupukan
-function sahran_status(tanggal) {
-    const selisih = sahran_selisih_hari(tanggal);
+// MENENTUKAN STATUS
+function sahran_status(data) {
+
+    if (data.selesai) {
+        return "Sudah Dipupuk";
+    }
+
+    const selisih = sahran_selisih_hari(data.tanggal);
 
     if (selisih < 0) {
         return "Terlambat";
-    } else if (selisih === 0) {
-        return "Hari Ini";
-    } else {
-        return "Terjadwal";
     }
+
+    if (selisih === 0) {
+        return "Hari Ini";
+    }
+
+    return "Terjadwal";
 }
 
-// Menampilkan jadwal ke tabel
+// MEMBUAT TOMBOL
+function sahran_buat_tombol(teks, kelas, id) {
+
+    const tombol = document.createElement("button");
+
+    tombol.type = "button";
+    tombol.textContent = teks;
+    tombol.className = kelas;
+    tombol.dataset.id = id;
+
+    return tombol;
+}
+
+// MENAMPILKAN JADWAL
 function sahran_tampilkan_jadwal() {
 
     const tabel = document.getElementById(
@@ -106,34 +165,112 @@ function sahran_tampilkan_jadwal() {
             data.lahan,
             sahran_format_tanggal(data.tanggal),
             data.pupuk,
-            data.keterangan,
-            sahran_status(data.tanggal)
+            data.keterangan || "-"
         ];
 
         nilai.forEach(teks => {
+
             const kolom = document.createElement("td");
+
             kolom.textContent = teks;
             baris.appendChild(kolom);
+
         });
 
+        // KOLOM STATUS
+        const kolom_status = document.createElement("td");
+
+        const status = document.createElement("span");
+
+        status.textContent = sahran_status(data);
+        status.className = "sahran_status";
+
+        if (data.selesai) {
+            status.style.color = "#16803c";
+            status.style.fontWeight = "bold";
+        } else if (sahran_status(data) === "Terlambat") {
+            status.style.color = "#c0392b";
+            status.style.fontWeight = "bold";
+        } else if (sahran_status(data) === "Hari Ini") {
+            status.style.color = "#d97706";
+            status.style.fontWeight = "bold";
+        }
+
+        kolom_status.appendChild(status);
+
+        // TANGGAL REALISASI
+        if (data.selesai) {
+
+            const realisasi = document.createElement("small");
+
+            realisasi.textContent =
+                "Realisasi: " +
+                sahran_format_tanggal(data.tanggal_realisasi);
+
+            realisasi.style.display = "block";
+            realisasi.style.marginTop = "5px";
+
+            kolom_status.appendChild(realisasi);
+        }
+
+        baris.appendChild(kolom_status);
+
+        // KOLOM AKSI
         const kolom_aksi = document.createElement("td");
-        const tombol = document.createElement("button");
 
-        tombol.textContent = "Hapus";
-        tombol.type = "button";
-        tombol.dataset.id = data.id;
-        tombol.className = "sahran_hapus";
+        kolom_aksi.style.minWidth = "180px";
 
-        kolom_aksi.appendChild(tombol);
+        // TOMBOL EDIT
+        const tombol_edit = sahran_buat_tombol(
+            "Edit",
+            "sahran_edit",
+            data.id
+        );
+
+        kolom_aksi.appendChild(tombol_edit);
+
+        // TOMBOL STATUS
+        if (data.selesai) {
+
+            const tombol_batal = sahran_buat_tombol(
+                "Batalkan",
+                "sahran_batal",
+                data.id
+            );
+
+            kolom_aksi.appendChild(tombol_batal);
+
+        } else {
+
+            const tombol_selesai = sahran_buat_tombol(
+                "Sudah Dipupuk",
+                "sahran_selesai",
+                data.id
+            );
+
+            kolom_aksi.appendChild(tombol_selesai);
+        }
+
+        // TOMBOL HAPUS
+        const tombol_hapus = sahran_buat_tombol(
+            "Hapus",
+            "sahran_hapus",
+            data.id
+        );
+
+        kolom_aksi.appendChild(tombol_hapus);
+
         baris.appendChild(kolom_aksi);
 
         tabel.appendChild(baris);
     });
 
+    sahran_simpan_data();
+
     sahran_peng_ing_at();
 }
 
-// Pengingat otomatis
+// PENGINGAT OTOMATIS
 function sahran_peng_ing_at() {
 
     const pesan = document.getElementById(
@@ -142,10 +279,15 @@ function sahran_peng_ing_at() {
 
     if (!pesan) return;
 
-    const daftar = [...sahran_jadwal]
+    const daftar = sahran_jadwal
+        .filter(data => !data.selesai)
         .sort((a, b) =>
             a.tanggal.localeCompare(b.tanggal)
         );
+
+    const terlambat = daftar.find(data =>
+        sahran_selisih_hari(data.tanggal) < 0
+    );
 
     const hari_ini = daftar.find(data =>
         sahran_selisih_hari(data.tanggal) === 0
@@ -155,14 +297,19 @@ function sahran_peng_ing_at() {
         sahran_selisih_hari(data.tanggal) > 0
     );
 
-    const terlambat = daftar.filter(data =>
-        sahran_selisih_hari(data.tanggal) < 0
-    );
+    if (terlambat) {
 
-    if (hari_ini) {
+        pesan.textContent =
+            "⚠️ Jadwal pemupukan " +
+            terlambat.lahan +
+            " sudah terlambat. Segera lakukan pemupukan!";
+
+    } else if (hari_ini) {
+
         pesan.textContent =
             "🔔 Hari ini waktunya pemupukan " +
-            hari_ini.lahan + " menggunakan pupuk " +
+            hari_ini.lahan +
+            " menggunakan pupuk " +
             hari_ini.pupuk + "!";
 
     } else if (berikutnya) {
@@ -172,29 +319,27 @@ function sahran_peng_ing_at() {
         );
 
         if (selisih <= 7) {
+
             pesan.textContent =
                 "🔔 Pengingat! Pemupukan " +
                 berikutnya.lahan +
                 " akan dilakukan dalam " +
                 selisih + " hari.";
+
         } else {
+
             pesan.textContent =
                 "Belum ada jadwal pemupukan dalam 7 hari ke depan.";
         }
 
-    } else if (terlambat.length > 0) {
-
-        pesan.textContent =
-            "⚠️ Ada " + terlambat.length +
-            " jadwal pemupukan yang sudah melewati tanggal.";
-
     } else {
+
         pesan.textContent =
-            "Belum ada jadwal pemupukan.";
+            "✅ Semua jadwal pemupukan sudah selesai atau belum ada jadwal.";
     }
 }
 
-// Menambahkan jadwal baru
+// MENAMBAHKAN JADWAL BARU
 const sahran_form = document.getElementById(
     "sahran_form_pemupukan"
 );
@@ -206,7 +351,9 @@ if (sahran_form) {
         e.preventDefault();
 
         const data_baru = {
+
             id: Date.now(),
+
             lahan: document.getElementById(
                 "sahran_nama_lahan"
             ).value.trim(),
@@ -221,7 +368,11 @@ if (sahran_form) {
 
             keterangan: document.getElementById(
                 "sahran_keterangan"
-            ).value.trim() || "Pemupukan berkala"
+            ).value.trim() || "Pemupukan berkala",
+
+            selesai: false,
+
+            tanggal_realisasi: ""
         };
 
         sahran_jadwal.push(data_baru);
@@ -235,7 +386,7 @@ if (sahran_form) {
     });
 }
 
-// Menghapus jadwal
+// AKSI EDIT, HAPUS, DAN STATUS
 const sahran_tabel = document.getElementById(
     "sahran_daftar_jadwal"
 );
@@ -244,22 +395,139 @@ if (sahran_tabel) {
 
     sahran_tabel.addEventListener("click", function(e) {
 
-        if (e.target.classList.contains("sahran_hapus")) {
+        const tombol = e.target.closest("button");
 
-            const id = Number(e.target.dataset.id);
+        if (!tombol) return;
 
-            if (confirm("Yakin ingin menghapus jadwal ini?")) {
+        const id = Number(tombol.dataset.id);
+
+        const data = sahran_jadwal.find(
+            item => item.id === id
+        );
+
+        if (!data) return;
+
+        // EDIT JADWAL
+        if (tombol.classList.contains("sahran_edit")) {
+
+            const lahan = prompt(
+                "Ubah nama lahan:",
+                data.lahan
+            );
+
+            if (lahan === null) return;
+
+            if (!lahan.trim()) {
+                alert("Nama lahan tidak boleh kosong!");
+                return;
+            }
+
+            const tanggal = prompt(
+                "Ubah tanggal pemupukan (YYYY-MM-DD):",
+                data.tanggal
+            );
+
+            if (tanggal === null) return;
+
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(tanggal) ||
+                Number.isNaN(new Date(tanggal + "T00:00:00").getTime()) ||
+                new Date(tanggal + "T00:00:00").toISOString().slice(0, 10) !== tanggal) {
+                alert("Format tanggal tidak valid!");
+                return;
+            }
+
+            const pupuk = prompt(
+                "Ubah jenis pupuk:",
+                data.pupuk
+            );
+
+            if (pupuk === null) return;
+
+            if (!pupuk.trim()) {
+                alert("Jenis pupuk tidak boleh kosong!");
+                return;
+            }
+
+            const keterangan = prompt(
+                "Ubah keterangan:",
+                data.keterangan
+            );
+
+            if (keterangan === null) return;
+
+            data.lahan = lahan.trim();
+            data.tanggal = tanggal;
+            data.pupuk = pupuk.trim();
+            data.keterangan = keterangan.trim();
+
+            sahran_simpan_data();
+            sahran_tampilkan_jadwal();
+
+            alert("Jadwal berhasil diperbarui!");
+        }
+
+        // TANDAI SUDAH DIPUPUK
+        else if (
+            tombol.classList.contains("sahran_selesai")
+        ) {
+
+            if (confirm(
+                "Apakah pemupukan di " +
+                data.lahan +
+                " sudah benar-benar dilakukan?"
+            )) {
+
+                data.selesai = true;
+                data.tanggal_realisasi = sahran_hari_ini();
+
+                sahran_simpan_data();
+                sahran_tampilkan_jadwal();
+
+                alert("Pemupukan berhasil ditandai selesai!");
+            }
+        }
+
+        // BATALKAN STATUS
+        else if (
+            tombol.classList.contains("sahran_batal")
+        ) {
+
+            if (confirm(
+                "Batalkan status Sudah Dipupuk?"
+            )) {
+
+                data.selesai = false;
+                data.tanggal_realisasi = "";
+
+                sahran_simpan_data();
+                sahran_tampilkan_jadwal();
+
+                alert("Status berhasil dikembalikan!");
+            }
+        }
+
+        // HAPUS JADWAL
+        else if (
+            tombol.classList.contains("sahran_hapus")
+        ) {
+
+            if (confirm(
+                "Yakin ingin menghapus jadwal pemupukan ini?"
+            )) {
 
                 sahran_jadwal = sahran_jadwal.filter(
-                    data => data.id !== id
+                    item => item.id !== id
                 );
 
                 sahran_simpan_data();
                 sahran_tampilkan_jadwal();
+
+                alert("Jadwal berhasil dihapus!");
             }
         }
     });
 }
 
-// Menampilkan data saat halaman dibuka
+// MENAMPILKAN DATA SAAT HALAMAN DIBUKA
+sahran_simpan_data();
 sahran_tampilkan_jadwal();
