@@ -2875,3 +2875,54 @@ body {
     font-size: 14px !important;
     padding: 9px 10px !important;
 }
+
+/* ==================================
+   TOMBOL AKSI JADWAL PEMUPUKAN
+   KAKAO FARM - SAHRAN
+================================== */
+
+.sahran_table td:last-child {
+    min-width: 240px;
+    text-align: center;
+    white-space: normal;
+}
+
+.sahran_table td:last-child button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    margin: 4px;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.sahran_table td:last-child button:hover {
+    transform: translateY(-2px);
+    opacity: 0.88;
+}
+
+/* TOMBOL EDIT */
+.sahran_edit {
+    background: #2878c8;
+}
+
+/* TOMBOL SUDAH DIPUPUK */
+.sahran_selesai {
+    background: #219653;
+}
+
+/* TOMBOL BATALKAN */
+.sahran_batal {
+    background: #e69b24;
+}
+
+/* TOMBOL HAPUS */
+.sahran_hapus {
+    background: #c0392b;
+}
